@@ -1,1 +1,1 @@
-# geoguessr-conv
+# geoguessr-guessr
