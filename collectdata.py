@@ -2,6 +2,16 @@ from PIL import ImageGrab
 from pynput import keyboard 
 import numpy as np
 import cv2
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
+service = Service('./chromedriver')
+service.start()
+
+driver = webdriver.Remote(service.service_url)
+
+driver.get("https://www.geoguessr.com/maps/world/play")
+
 
 actual_location_marker_img = cv2.imread('assets/marker.png', 0)
 h_marker, w_marker = actual_location_marker_img.shape
@@ -15,8 +25,6 @@ def get_coordinates_of_marker(input_img):
     bottom_right = (location[0] + w_marker, location[1] + h_marker)
     cv2.rectangle(img2, location, bottom_right, 255, 5)
     cv2.imwrite('Match.png', img2)
-    cv2.waitKey(5000)
-    cv2.destroyAllWindows()
     return (0, 1)
 
 
@@ -37,8 +45,5 @@ with keyboard.GlobalHotKeys({
         }) as h:
     h.join()
 
-## Setup Get Coordinates
-
-
-
-
+print("Test")
+driver.quit()
