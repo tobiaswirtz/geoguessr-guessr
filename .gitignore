@@ -1,1 +1,5 @@
 chromedriver
+tmp/*
+tmpflow/*
+chrome-data
+data/*

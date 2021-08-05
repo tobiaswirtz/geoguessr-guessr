@@ -7,7 +7,9 @@
 4. Build chrome extension to do inference
 
 ###Detailed Step 1
+- [x] Login to Geoguessr
+- [x] Start Game
 - [x] Get image of playable area
+- [x] Write loop to collect data
 - [] Get coordinates from intermediate screen
-- [x] Write Keyboard Shortcuts for get image and get coordinates
 - [] Save Image with coordinates as filename 

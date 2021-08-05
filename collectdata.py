@@ -1,49 +1,29 @@
-from PIL import ImageGrab
-from pynput import keyboard 
-import numpy as np
-import cv2
+import time 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from imagemanipulation import ImageManipulator
 
 service = Service('./chromedriver')
 service.start()
-
-driver = webdriver.Remote(service.service_url)
-
+chrome_options = Options()
+chrome_options.add_argument("--user-data-dir=chrome-data")
+driver = webdriver.Remote(service.service_url, options=chrome_options)
 driver.get("https://www.geoguessr.com/maps/world/play")
 
+for i in range(0, 2000):
+    driver.find_element_by_css_selector("button[data-qa='start-game-button']").click()
+    for i in range(0, 5):
+        time.sleep(4)
+        ImageManipulator.save_image(tmp=False)
+        driver.find_element_by_class_name("guess-map__canvas").click()
+        time.sleep(1)
+        driver.find_element_by_css_selector("button[data-qa='perform-guess']").click()
+        time.sleep(1)
+        driver.find_element_by_css_selector("button[data-qa='close-round-result']").click()
+        time.sleep(0.5)
+    driver.find_element_by_css_selector("a[data-qa='play-same-map']").click()
+    time.sleep(0.2)
+    driver.find_element_by_css_selector("button[data-qa='play-map-world']").click()
+    time.sleep(0.2)
 
-actual_location_marker_img = cv2.imread('assets/marker.png', 0)
-h_marker, w_marker = actual_location_marker_img.shape
-
-def get_coordinates_of_marker(input_img):
-    img2 = input_img.copy()
-    print(actual_location_marker_img.dtype, img2.dtype, actual_location_marker_img.shape, img2.shape)
-    result = cv2.matchTemplate(img2, actual_location_marker_img.astype(np.uint8), cv2.TM_CCOEFF)
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-    location = max_loc
-    bottom_right = (location[0] + w_marker, location[1] + h_marker)
-    cv2.rectangle(img2, location, bottom_right, 255, 5)
-    cv2.imwrite('Match.png', img2)
-    return (0, 1)
-
-
-def save_image():
-    ## Setup Screenshotting
-    im = ImageGrab.grab(bbox=(25,400,2750,1750), xdisplay=None)
-    im.show()
-
-def save_coordinates():
-    tmp_img = ImageGrab.grab(bbox=(25, 400, 2750, 1200), xdisplay=None)
-    numpy_tmp = np.array(tmp_img)
-    opencv_img = cv2.cvtColor(numpy_tmp, cv2.COLOR_RGB2GRAY)
-    coords = get_coordinates_of_marker(opencv_img.astype(np.uint8))
-
-with keyboard.GlobalHotKeys({
-        '<cmd_l>+s': save_image,
-        '<cmd_l>+c': save_coordinates
-        }) as h:
-    h.join()
-
-print("Test")
-driver.quit()
