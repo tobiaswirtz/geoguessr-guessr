@@ -31,5 +31,5 @@ class ImageManipulator:
         tmp_img = ImageGrab.grab(bbox=(25, 400, 2750, 1200), xdisplay=None)
         numpy_tmp = np.array(tmp_img)
         opencv_img = cv2.cvtColor(numpy_tmp, cv2.COLOR_RGB2GRAY)
-        coords = get_coordinates_of_marker(opencv_img.astype(np.uint8))
+        coords = ImageManipulator.get_coordinates_of_marker(opencv_img.astype(np.uint8))
         return coords
