@@ -1,9 +1,11 @@
-import time
+import os
+import pathlib
 import cv2
 import numpy as np
 from PIL import ImageGrab, Image
 import cv2
 
+current_path = str(pathlib.Path(__file__).parent.resolve())
 actual_location_marker_img = cv2.imread('assets/marker.png', 0)
 h_marker, w_marker = actual_location_marker_img.shape
 
@@ -16,16 +18,12 @@ class ImageManipulator:
         bottom_right = (location[0] + w_marker, location[1] + h_marker)
         return bottom_right 
 
-    def save_image(tmp):
+    def save_image(game_id, round_number):
         ## Setup Screenshotting
         im = ImageGrab.grab(bbox=(25,400,2750,1750), xdisplay=None)
-        filename = time.strftime("%Y%m%d-%H%M%S") + ".png"
-        if tmp == True:
-            path = "./tmpflow/" + filename
-            im.save(path)
-        else:
-            path = "./tmp/" + filename
-            im.save(path)
+        filename = game_id + "-" + round_number + ".png"
+        path = "./tmp/" + filename
+        im.save(path)
 
     def save_coordinates():
         tmp_img = ImageGrab.grab(bbox=(25, 400, 2750, 1200), xdisplay=None)
@@ -33,3 +31,9 @@ class ImageManipulator:
         opencv_img = cv2.cvtColor(numpy_tmp, cv2.COLOR_RGB2GRAY)
         coords = ImageManipulator.get_coordinates_of_marker(opencv_img.astype(np.uint8))
         return coords
+
+    def add_annotations(game_id, data):
+        for i in range(0, 5):
+            new_filename = str(((data["rounds"])[i])['lat']) + "," + str(((data["rounds"])[i])['lng']) + ".png"
+            old_filename = current_path + "/tmp/" + game_id + "-" + str(i) + ".png"
+            os.rename(old_filename, current_path + "/data/" + new_filename)

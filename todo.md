@@ -11,5 +11,4 @@
 - [x] Start Game
 - [x] Get image of playable area
 - [x] Write loop to collect data
-- [] Get coordinates from intermediate screen
-- [] Save Image with coordinates as filename 
+- [x] Save images with coordinates as file name
