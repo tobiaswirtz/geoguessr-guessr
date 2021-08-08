@@ -20,6 +20,7 @@ fig = go.Figure(data=go.Scattergeo(
         mode = 'markers',
         ))
 
+fig.update_geos(showcountries=True)
 fig.update_layout(
         title =  '2002 Collected Data Points Aug 8th'
     )
