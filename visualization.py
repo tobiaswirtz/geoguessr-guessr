@@ -3,13 +3,15 @@ import os
 import pandas as pd
 
 placeNames = os.listdir("./data")
+print(placeNames)
 d = {"lat": [], "lng": []}
 for name in placeNames:
-    arr = name.split(",")
-    lat = float(arr[0])
-    lng = float((arr[1])[:len(arr[1])-4])
-    d["lat"].append(lat)
-    d["lng"].append(lng)
+    if name != ".DS_Store":
+        arr = name.split(",")
+        lat = float(arr[0])
+        lng = float((arr[1])[:len(arr[1])-4])
+        d["lat"].append(lat)
+        d["lng"].append(lng)
 
 df = pd.DataFrame(d)
 
@@ -20,6 +22,6 @@ fig = go.Figure(data=go.Scattergeo(
         ))
 
 fig.update_layout(
-        title =  '765 Collected Data Points Aug 7th'
+        title =  '2002 Collected Data Points Aug 8th'
     )
 fig.show()
