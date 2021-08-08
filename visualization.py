@@ -22,6 +22,6 @@ fig = go.Figure(data=go.Scattergeo(
 
 fig.update_geos(showcountries=True)
 fig.update_layout(
-        title =  '2002 Collected Data Points Aug 8th'
+        title =  '3252 Collected Data Points Aug 8th'
     )
 fig.show()
