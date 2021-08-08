@@ -3,7 +3,6 @@ import os
 import pandas as pd
 
 placeNames = os.listdir("./data")
-print(placeNames)
 d = {"lat": [], "lng": []}
 for name in placeNames:
     if name != ".DS_Store":
