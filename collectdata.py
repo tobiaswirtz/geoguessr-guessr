@@ -1,5 +1,6 @@
 import time 
 import requests
+import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -13,7 +14,17 @@ service.start()
 chrome_options = Options()
 chrome_options.add_argument("--user-data-dir=chrome-data")
 driver = webdriver.Remote(service.service_url, options=chrome_options)
-driver.get("https://www.geoguessr.com/maps/world/play")
+
+map_to_collect = "world"
+map_button = "button[data-qa='play-map-world']"
+if len(sys.argv) > 0: 
+    map_to_collect = sys.argv[1]
+    map_button = "button[data-qa='play-map-" + map_to_collect  + "']"
+
+map_link = "https://www.geoguessr.com/maps/" + map_to_collect + "/play"
+
+driver.get(map_link)
+time.sleep(10)
 
 for i in range(0, 2000):
     driver.find_element_by_css_selector("button[data-qa='start-game-button']").click()
@@ -31,7 +42,7 @@ for i in range(0, 2000):
         time.sleep(0.5)
     driver.find_element_by_css_selector("a[data-qa='play-same-map']").click()
     time.sleep(0.4)
-    driver.find_element_by_css_selector("button[data-qa='play-map-world']").click()
+    driver.find_element_by_css_selector(map_button).click()
     time.sleep(0.2)
     r = requests.get(url = api_url + game_id)
     data = r.json()

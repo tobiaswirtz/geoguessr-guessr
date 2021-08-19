@@ -6,3 +6,4 @@ tmp/*
 tmpflow/*
 chrome-data
 data/*
+labeled_data/*

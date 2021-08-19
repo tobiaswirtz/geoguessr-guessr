@@ -20,8 +20,10 @@ fig = go.Figure(data=go.Scattergeo(
         mode = 'markers',
         ))
 
+title_with_count = str(len(placeNames)) + ' Collected Data Points Aug 12th'
+
 fig.update_geos(showcountries=True)
 fig.update_layout(
-        title =  '3252 Collected Data Points Aug 8th'
+        title = title_with_count 
     )
 fig.show()
