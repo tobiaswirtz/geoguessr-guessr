@@ -1,5 +1,3 @@
 # geoguessr-guessr
 
-## Progress
-
-![](/07082021.png')
+Building a CNN that can play GeoGuessr. Includes a script to generate training data.
